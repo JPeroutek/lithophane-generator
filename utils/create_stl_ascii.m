@@ -1,3 +1,8 @@
+% Lithophane-generator
+% utils/create_stl_ascii.m
+% 
+% © Jacob Peroutek, 2020
+% All rights reserved.
 function create_stl_ascii(file_name, solid_name, facets)
     if !isstruct(facets)
         error('`facets` must be a vector of structs.');
