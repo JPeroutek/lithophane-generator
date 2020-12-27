@@ -5,6 +5,9 @@
 % All rights reserved.
 clc;
 clear;
+
+tic;
+
 addpath('generators');
 addpath('utils');
 
@@ -26,3 +29,4 @@ normalized_heightmap = fliplr(im2double(img_data)');
 % Need to come up with a way to select the correct generator
 x = rect_flat(normalized_heightmap);
 create_stl_ascii('lithophane.stl', 'lith', x);
+toc
