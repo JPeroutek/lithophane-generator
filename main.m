@@ -18,7 +18,7 @@ img_data = imread('samples/Disney_Train_Photo.jpg');
 % Convert to grayscale if necessary
 if ndims(img_data) > 2
     img_data = rgb2gray(img_data);
-endif
+end % if
 
 % Normalize to a value [0-1]
 normalized_heightmap = fliplr(im2double(img_data)');

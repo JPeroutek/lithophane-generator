@@ -6,13 +6,13 @@
 function create_stl_ascii(file_name, solid_name, facets)
     if !isstruct(facets)
         error('`facets` must be a vector of structs.');
-    endif
+    end % if
     if !ischar(solid_name)
         error('`solid_name` must be a string.');
-    endif
+    end % if
     if !ischar(file_name)
         error('`file_name` must be a string.');
-    endif
+    end % if
     
     fo = fopen(file_name, 'w');
     
@@ -25,10 +25,10 @@ function create_stl_ascii(file_name, solid_name, facets)
         fputs(fo, sprintf('            vertex %e %e %e\n', facets(i).v(3,:)));
         fputs(fo, sprintf('        endloop\n'));
         fputs(fo, sprintf('    endfacet\n'));
-    endfor
+    end % for
     fputs(fo, sprintf('endsolid %s\n', solid_name));
     
     % write the file contents
     
     fclose(fo);
-endfunction
+end % function

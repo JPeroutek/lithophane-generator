@@ -3,7 +3,6 @@
 % 
 % © Jacob Peroutek, 2020
 % All rights reserved.
-
 function facets = rect_flat(heightmap, 
                             border=false,     % Should there be a full thickness border?
                             border_width=5,   % mm
@@ -12,7 +11,7 @@ function facets = rect_flat(heightmap,
                             pixel_density=8)  % px/mm
     if ndims(heightmap) != 2
        error('heightmap should be a 2-dimensional vector of normalized heights'); 
-    endif
+    end % if
     
     facets = struct('n', {}, 'v', {});
     [m,n] = size(heightmap);
@@ -51,7 +50,7 @@ function facets = rect_flat(heightmap,
                 verts(:,1:2) = verts(:,1:2) / pixel_density;
                 norm = facet_norm(verts);
                 facets(end+1) = struct('n', norm, 'v', verts);
-            endif
+            end % if
             
             % Create the LR edges and back plane
             if (i == 1) || (i == m-1) % Check if we are on the L/R edge
@@ -63,7 +62,7 @@ function facets = rect_flat(heightmap,
                 % The right edge needs to have the normal facing the other way
                 if (i == m-1)
                     verts = flipud(verts);
-                endif
+                end % if
                 norm = facet_norm(verts);
                 facets(end+1) = struct('n', norm, 'v', verts);
                 
@@ -74,7 +73,7 @@ function facets = rect_flat(heightmap,
                 % The right edge needs to have the normal facing the other way
                 if (i == m-1)
                     verts = flipud(verts);
-                endif
+                end % if
                 norm = facet_norm(verts);
                 facets(end+1) = struct('n', norm, 'v', verts);
                 
@@ -87,10 +86,10 @@ function facets = rect_flat(heightmap,
                 %   facing the other way.
                 if (i == m-1)
                     verts = flipud(verts);
-                endif
+                end % if
                 norm = facet_norm(verts);
                 facets(end+1) = struct('n', norm, 'v', verts);
-            endif
+            end % if
             
             % Create the TB edges and back plane
             if (j == 1) || (j == n-1) % Check if we are on the T/B edge
@@ -102,7 +101,7 @@ function facets = rect_flat(heightmap,
                 % The right edge needs to have the normal facing the other way
                 if (j == 1)
                     verts = flipud(verts);
-                endif
+                end % if
                 norm = facet_norm(verts);
                 facets(end+1) = struct('n', norm, 'v', verts);
                 
@@ -113,7 +112,7 @@ function facets = rect_flat(heightmap,
                 % The right edge needs to have the normal facing the other way
                 if (j == 1)
                     verts = flipud(verts);
-                endif
+                end % if
                 norm = facet_norm(verts);
                 facets(end+1) = struct('n', norm, 'v', verts);
                 
@@ -126,12 +125,12 @@ function facets = rect_flat(heightmap,
                 %   facing the other way.
                 if (j == 1)
                     verts = flipud(verts);
-                endif
+                end % if
                 norm = facet_norm(verts);
                 facets(end+1) = struct('n', norm, 'v', verts);
-            endif
-        endfor
-    endfor
+            end % if
+        end % for
+    end % for
     
     printf('Face count: %d\n', length(facets));
-endfunction
+end % function
