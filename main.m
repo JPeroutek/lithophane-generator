@@ -8,26 +8,20 @@ clear;
 addpath('generators');
 addpath('utils');
 
-##%% Parameters
-##% Specified parameters
-##thickness_min = .2; % mm
-##thickness_max = 3;  % mm
-##
-##% Calculated parameters
-##thickness_delta = thickness_max - thickness_min; % mm
-
 %% Image loading and processing
 % Load the image
-img_data = imread('IMG_5956.JPG');
+img_data = imread('samples/Disney_Train_Photo.jpg');
 
-% Convert to grayscale
-grayscale_img = rgb2gray(img_data);
+% Convert to grayscale if necessary
+if ndims(img_data) > 2
+    img_data = rgb2gray(img_data);
+endif
 
 % Normalize to a value [0-1]
-normalized_heightmap = im2double(grayscale_img)';
+normalized_heightmap = fliplr(im2double(img_data)');
 
-% Get a heightmap, with appropriate min/max thicknesses
-%heightmap = norm_img * thickness_delta + thickness_min;
+% Could possibly go ahead and convert the normalized heightmap to a biased map
+%   See `utils/height_with_bias.m`
 
 % Need to come up with a way to select the correct generator
 x = rect_flat(normalized_heightmap);
