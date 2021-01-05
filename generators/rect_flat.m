@@ -30,109 +30,181 @@ function facets = rect_flat(heightmap, varargin)
             
             % Create the lithophane from the heightmap
             if mod(i + j, 2) == 0
-                verts = [i   j   height_with_bias(heightmap(i, j), min_thickness, max_thickness);     ...
+                verts = [i+1 j+1 height_with_bias(heightmap(i+1, j+1), min_thickness, max_thickness); ...
                          i   j+1 height_with_bias(heightmap(i, j+1), min_thickness, max_thickness);   ...
-                         i+1 j+1 height_with_bias(heightmap(i+1, j+1), min_thickness, max_thickness)];
+                         i   j   height_with_bias(heightmap(i, j), min_thickness, max_thickness)];
                 verts(:,1:2) = verts(:,1:2) / pixel_density;
                 norm = facet_norm(verts);
                 facets(end+1) = struct('n', norm, 'v', verts);
                 
-                verts = [i+1 j   height_with_bias(heightmap(i+1, j), min_thickness, max_thickness);   ...
+                verts = [i+1 j+1 height_with_bias(heightmap(i+1, j+1), min_thickness, max_thickness); ...
                          i   j   height_with_bias(heightmap(i, j), min_thickness, max_thickness);     ...
-                         i+1 j+1 height_with_bias(heightmap(i+1, j+1), min_thickness, max_thickness)];
+                         i+1 j   height_with_bias(heightmap(i+1, j), min_thickness, max_thickness)];
                 verts(:,1:2) = verts(:,1:2) / pixel_density;
                 norm = facet_norm(verts);
                 facets(end+1) = struct('n', norm, 'v', verts);
             else
-                verts = [i   j   height_with_bias(heightmap(i, j), min_thickness, max_thickness);     ...
+                verts = [i+1 j   height_with_bias(heightmap(i+1, j), min_thickness, max_thickness);   ...
+                         i   j+1 height_with_bias(heightmap(i, j+1), min_thickness, max_thickness);   ...
+                         i   j   height_with_bias(heightmap(i, j), min_thickness, max_thickness)];
+                verts(:,1:2) = verts(:,1:2) / pixel_density;
+                norm = facet_norm(verts);
+                facets(end+1) = struct('n', norm, 'v', verts);
+                
+                verts = [i+1 j+1 height_with_bias(heightmap(i+1, j+1), min_thickness, max_thickness); ...
                          i   j+1 height_with_bias(heightmap(i, j+1), min_thickness, max_thickness);   ...
                          i+1 j   height_with_bias(heightmap(i+1, j), min_thickness, max_thickness)];
                 verts(:,1:2) = verts(:,1:2) / pixel_density;
                 norm = facet_norm(verts);
                 facets(end+1) = struct('n', norm, 'v', verts);
-                
-                verts = [i+1 j   height_with_bias(heightmap(i+1, j), min_thickness, max_thickness);   ...
-                         i   j+1 height_with_bias(heightmap(i, j+1), min_thickness, max_thickness);   ...
-                         i+1 j+1 height_with_bias(heightmap(i+1, j+1), min_thickness, max_thickness)];
-                verts(:,1:2) = verts(:,1:2) / pixel_density;
-                norm = facet_norm(verts);
-                facets(end+1) = struct('n', norm, 'v', verts);
             end % if
             
-            % Create the LR edges and back plane
-            if (i == 1) || (i == m-1) % Check if we are on the L/R edge
+            % Create the Left edges and back plane
+            if (i == 1)  % Check if we are on the Left edge                
                 % Create the two edge facets
                 verts = [i j   height_with_bias(heightmap(i, j), min_thickness, max_thickness);       ...
                          i j   0; ...
                          i j+1 0];
+                         
+                % The left edge needs to have the normal facing the other way
+                verts = flipud(verts);
+                         
                 verts(:,1:2) = verts(:,1:2) / pixel_density;
-                % The right edge needs to have the normal facing the other way
-                if (i == m-1)
-                    verts = flipud(verts);
-                end % if
                 norm = facet_norm(verts);
                 facets(end+1) = struct('n', norm, 'v', verts);
+                
+                %%%%%%%%%%%%%%%%
                 
                 verts = [i j   height_with_bias(heightmap(i, j), min_thickness, max_thickness);       ...
                          i j+1 0;                                                                      ...
                          i j+1 height_with_bias(heightmap(i, j+1), min_thickness, max_thickness)];
+                
+                % The left edge needs to have the normal facing the other way
+                verts = flipud(verts);
+                
                 verts(:,1:2) = verts(:,1:2) / pixel_density;
-                % The right edge needs to have the normal facing the other way
-                if (i == m-1)
-                    verts = flipud(verts);
-                end % if
                 norm = facet_norm(verts);
                 facets(end+1) = struct('n', norm, 'v', verts);
+                
+                %%%%%%%%%%%%%%%%
                 
                 % Add a back plane face
                 verts = [i j+1 0;   ...
                          i j   0;   ...
                          backplane_centerpoint];
+                
+                % The left edge needs to have the normal facing the other way
+                verts = flipud(verts);
+                
                 verts(:,1:2) = verts(:,1:2) / pixel_density;
-                % The faces touching the right edge need to have the normal 
-                %   facing the other way.
-                if (i == m-1)
-                    verts = flipud(verts);
-                end % if
                 norm = facet_norm(verts);
                 facets(end+1) = struct('n', norm, 'v', verts);
             end % if
             
-            % Create the TB edges and back plane
-            if (j == 1) || (j == n-1) % Check if we are on the T/B edge
+            % Create the Right edge and back plane
+            if (i == m-1) % Check if we are on the Right edge                
+                % Create the two edge facets
+                verts = [m j   height_with_bias(heightmap(m, j), min_thickness, max_thickness);       ...
+                         m j   0; ...
+                         m j+1 0];
+                
+                verts(:,1:2) = verts(:,1:2) / pixel_density;
+                norm = facet_norm(verts);
+                facets(end+1) = struct('n', norm, 'v', verts);
+                
+                %%%%%%%%%%%%%%%%
+                
+                verts = [m j   height_with_bias(heightmap(m, j), min_thickness, max_thickness);       ...
+                         m j+1 0;                                                                      ...
+                         m j+1 height_with_bias(heightmap(m, j+1), min_thickness, max_thickness)];
+                
+                verts(:,1:2) = verts(:,1:2) / pixel_density;
+                norm = facet_norm(verts);
+                facets(end+1) = struct('n', norm, 'v', verts);
+                
+                %%%%%%%%%%%%%%%%
+                
+                % Add a back plane face
+                verts = [m j+1 0;   ...
+                         m j   0;   ...
+                         backplane_centerpoint];
+
+                verts(:,1:2) = verts(:,1:2) / pixel_density;
+                norm = facet_norm(verts);
+                facets(end+1) = struct('n', norm, 'v', verts);
+            end % if
+            
+            % Create the Bottom edges and back plane
+            if (j == 1) % Check if we are on the Bottom edge
                 % Create the two edge facets
                 verts = [i   j height_with_bias(heightmap(i, j), min_thickness, max_thickness);       ...
                          i   j 0;                                                                     ...
                          i+1 j 0];
+             
                 verts(:,1:2) = verts(:,1:2) / pixel_density;
-                % The right edge needs to have the normal facing the other way
-                if (j == 1)
-                    verts = flipud(verts);
-                end % if
                 norm = facet_norm(verts);
                 facets(end+1) = struct('n', norm, 'v', verts);
+                
+                %%%%%%%%%%%%%%%%
                 
                 verts = [i   j height_with_bias(heightmap(i, j), min_thickness, max_thickness);       ...
                          i+1 j 0;                                                                     ...
                          i+1 j height_with_bias(heightmap(i+1, j), min_thickness, max_thickness)];
+                
                 verts(:,1:2) = verts(:,1:2) / pixel_density;
-                % The right edge needs to have the normal facing the other way
-                if (j == 1)
-                    verts = flipud(verts);
-                end % if
                 norm = facet_norm(verts);
                 facets(end+1) = struct('n', norm, 'v', verts);
+                
+                %%%%%%%%%%%%%%%%
                 
                 % Add a back plane face
                 verts = [i+1 j 0;   ...
                          i   j 0;   ...
                          backplane_centerpoint];
+                
                 verts(:,1:2) = verts(:,1:2) / pixel_density;
-                % The faces touching the right edge need to have the normal 
-                %   facing the other way.
-                if (j == 1)
-                    verts = flipud(verts);
-                end % if
+                norm = facet_norm(verts);
+                facets(end+1) = struct('n', norm, 'v', verts);
+            end % if
+            
+            % Create the Top edges and back plane
+            if (j == n-1) % Check if we are on the Top edge
+                % Create the two edge facets
+                verts = [i   n height_with_bias(heightmap(i, n), min_thickness, max_thickness);       ...
+                         i   n 0;                                                                     ...
+                         i+1 n 0];
+                
+                % The Top edge needs to have the normal facing the other way
+                verts = flipud(verts);
+                
+                verts(:,1:2) = verts(:,1:2) / pixel_density;
+                norm = facet_norm(verts);
+                facets(end+1) = struct('n', norm, 'v', verts);
+                
+                %%%%%%%%%%%%%%%%
+                
+                verts = [i   n height_with_bias(heightmap(i, n), min_thickness, max_thickness);       ...
+                         i+1 n 0;                                                                     ...
+                         i+1 n height_with_bias(heightmap(i+1, n), min_thickness, max_thickness)];
+                
+                % The Top edge needs to have the normal facing the other way
+                verts = flipud(verts);
+                
+                verts(:,1:2) = verts(:,1:2) / pixel_density;
+                norm = facet_norm(verts);
+                facets(end+1) = struct('n', norm, 'v', verts);
+                
+                %%%%%%%%%%%%%%%%
+                
+                % Add a back plane face
+                verts = [i+1 n 0;   ...
+                         i   n 0;   ...
+                         backplane_centerpoint];
+                         
+                % The Top edge needs to have the normal facing the other way
+                verts = flipud(verts);
+                
+                verts(:,1:2) = verts(:,1:2) / pixel_density;
                 norm = facet_norm(verts);
                 facets(end+1) = struct('n', norm, 'v', verts);
             end % if
