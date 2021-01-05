@@ -4,13 +4,13 @@
 % © Jacob Peroutek, 2020
 % All rights reserved.
 function create_stl_ascii(file_name, solid_name, facets)
-    if !isstruct(facets)
+    if ~isstruct(facets)
         error('`facets` must be a vector of structs.');
     end % if
-    if !ischar(solid_name)
+    if ~ischar(solid_name)
         error('`solid_name` must be a string.');
     end % if
-    if !ischar(file_name)
+    if ~ischar(file_name)
         error('`file_name` must be a string.');
     end % if
     

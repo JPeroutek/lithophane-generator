@@ -16,7 +16,7 @@ function facets = rect_flat(heightmap, varargin)
     [min_thickness, max_thickness, pixel_density] = opt_args{:};
     % mm             mm             px/mm
     
-    if ndims(heightmap) != 2
+    if ndims(heightmap) ~= 2
        error('heightmap should be a 2-dimensional vector of normalized heights'); 
     end % if
     
