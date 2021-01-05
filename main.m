@@ -24,6 +24,9 @@ end % if
 % Normalize to a value [0-1]
 normalized_heightmap = fliplr(im2double(img_data)');
 
+% Darker spots should be thicker, so we invert the heightmap
+normalized_heightmap = 1 - normalized_heightmap;
+
 % Could possibly go ahead and convert the normalized heightmap to a biased map
 %   See `utils/height_with_bias.m`
 
