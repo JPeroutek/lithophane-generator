@@ -3,12 +3,19 @@
 % 
 % © Jacob Peroutek, 2020
 % All rights reserved.
-function facets = rect_flat(heightmap, 
-                            border=false,     % Should there be a full thickness border?
-                            border_width=5,   % mm
-                            min_thickness=.2, % mm
-                            max_thickness=3,  % mm
-                            pixel_density=8)  % px/mm
+function facets = rect_flat(heightmap, varargin)
+    % handle the optional arguments
+    n_varargs = length(varargin);
+    if n_varargs > 3
+        error('generators/rect_flat: Too many arguments provided.');
+    end
+    % The default values
+    opt_args = {.2 3 8};
+    opt_args(1:n_varargs) = varargin;
+    % Place the values into named variables
+    [min_thickness, max_thickness, pixel_density] = opt_args{:};
+    % mm             mm             px/mm
+    
     if ndims(heightmap) != 2
        error('heightmap should be a 2-dimensional vector of normalized heights'); 
     end % if
