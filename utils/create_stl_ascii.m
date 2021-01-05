@@ -16,19 +16,17 @@ function create_stl_ascii(file_name, solid_name, facets)
     
     fo = fopen(file_name, 'w');
     
-    fputs(fo, sprintf('solid %s\n', solid_name));
+    fprintf(fo, 'solid %s\n', solid_name);
     for i=1:numel(facets)
-        fputs(fo, sprintf('    facet normal %e %e %e\n', facets(i).n)) ;
-        fputs(fo, sprintf('        outer loop\n'));
-        fputs(fo, sprintf('            vertex %e %e %e\n', facets(i).v(1,:)));
-        fputs(fo, sprintf('            vertex %e %e %e\n', facets(i).v(2,:)));
-        fputs(fo, sprintf('            vertex %e %e %e\n', facets(i).v(3,:)));
-        fputs(fo, sprintf('        endloop\n'));
-        fputs(fo, sprintf('    endfacet\n'));
+        fprintf(fo, '    facet normal %e %e %e\n', facets(i).n) ;
+        fprintf(fo, '        outer loop\n');
+        fprintf(fo, '            vertex %e %e %e\n', facets(i).v(1,:));
+        fprintf(fo, '            vertex %e %e %e\n', facets(i).v(2,:));
+        fprintf(fo, '            vertex %e %e %e\n', facets(i).v(3,:));
+        fprintf(fo, '        endloop\n');
+        fprintf(fo, '    endfacet\n');
     end % for
-    fputs(fo, sprintf('endsolid %s\n', solid_name));
-    
-    % write the file contents
-    
+    fprintf(fo, 'endsolid %s\n', solid_name);
+
     fclose(fo);
 end % function
