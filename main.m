@@ -13,6 +13,7 @@ addpath('utils');
 
 %% Image loading and processing
 % Load the image
+printf('Loading image...\n');
 img_data = imread('samples/Disney_Train_Photo.jpg');
 
 % Convert to grayscale if necessary
@@ -26,6 +27,8 @@ normalized_heightmap = fliplr(im2double(img_data)');
 % Could possibly go ahead and convert the normalized heightmap to a biased map
 %   See `utils/height_with_bias.m`
 
+printf('Estimating %d faces...\n', estimate_face_count(size(img_data)));
+printf('Beginning mesh generation...\n');
 % Need to come up with a way to select the correct generator
 x = rect_flat(normalized_heightmap);
 create_stl_ascii('lithophane.stl', 'lith', x);
