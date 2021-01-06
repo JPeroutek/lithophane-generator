@@ -34,5 +34,5 @@ printf('Estimating %d faces...\n', estimate_face_count(size(img_data)));
 printf('Beginning mesh generation...\n');
 % Need to come up with a way to select the correct generator
 x = rect_flat(normalized_heightmap);
-create_stl_ascii('lithophane.stl', 'lith', x);
+create_stl_binary('lithophane.stl', 'lith', x);
 toc
