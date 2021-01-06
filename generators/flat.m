@@ -211,5 +211,5 @@ function facets = flat(heightmap, varargin)
         end % for
     end % for
     
-    printf('Face count: %d\n', length(facets));
+    fprintf('Face count: %d\n', length(facets));
 end % function
