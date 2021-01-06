@@ -1,9 +1,9 @@
 % Lithophane-generator
-% generators/rect_flat.m
+% generators/flat.m
 % 
 % © Jacob Peroutek, 2020
 % All rights reserved.
-function facets = rect_flat(heightmap, varargin)
+function facets = flat(heightmap, varargin)
     % handle the optional arguments
     n_varargs = length(varargin);
     if n_varargs > 3

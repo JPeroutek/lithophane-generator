@@ -13,7 +13,7 @@ addpath('utils');
 
 %% Image loading and processing
 % Load the image
-printf('Loading image...\n');
+fprintf('Loading image...\n');
 img_data = imread('samples/Disney_Train_Photo.jpg');
 
 % Convert to grayscale if necessary
@@ -30,9 +30,9 @@ normalized_heightmap = 1 - normalized_heightmap;
 % Could possibly go ahead and convert the normalized heightmap to a biased map
 %   See `utils/height_with_bias.m`
 
-printf('Estimating %d faces...\n', estimate_face_count(size(img_data)));
-printf('Beginning mesh generation...\n');
+fprintf('Estimating %d faces...\n', estimate_face_count_flat(size(img_data)));
+fprintf('Beginning mesh generation...\n');
 % Need to come up with a way to select the correct generator
-x = rect_flat(normalized_heightmap);
+x = flat(normalized_heightmap);
 create_stl_binary('lithophane.stl', 'lith', x);
 toc
